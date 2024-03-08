@@ -87,7 +87,7 @@ class TemperatureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 500,
-      height: 60,
+      height: 75,
       child: Center(
         child: Text('${forecasts.elementAt(0).temperature}º',
             style: Theme.of(context).textTheme.displayLarge),
