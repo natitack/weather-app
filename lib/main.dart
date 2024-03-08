@@ -6,6 +6,7 @@ import 'models/user_location.dart';
 import 'components/weatherScreen/weather_screen.dart';
 import 'models/weather_forecast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const sqlCreateDatabase = 'assets/sql/create.sql';
 
@@ -25,8 +26,58 @@ class MyApp extends StatelessWidget {
         builder: (_, mode, __) {
           return MaterialApp(
             title: 'CS 492 Weather App',
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
+            theme: ThemeData(
+    useMaterial3: true,
+
+    // Define the default brightness and colors.
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.purple,
+      // ···
+      brightness: Brightness.light,
+    ),
+
+    // Define the default `TextTheme`. Use this to specify the default
+    // text styling for headlines, titles, bodies of text, and more.
+    textTheme: TextTheme(
+      displayLarge: const TextStyle(
+        fontSize: 72,
+        fontWeight: FontWeight.bold,
+      ),
+      // ···
+      titleLarge: GoogleFonts.oswald(
+        fontSize: 30,
+        fontStyle: FontStyle.italic,
+      ),
+      bodyMedium: GoogleFonts.merriweather(),
+      displaySmall: GoogleFonts.pacifico(),
+    ),
+  ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+
+              // Define the default brightness and colors.
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.purple,
+                // ···
+                brightness: Brightness.dark,
+              ),
+
+              // Define the default `TextTheme`. Use this to specify the default
+              // text styling for headlines, titles, bodies of text, and more.
+              textTheme: TextTheme(
+                displayLarge: const TextStyle(
+                  fontSize: 72,
+                  fontWeight: FontWeight.bold,
+                ),
+                // ···
+                titleLarge: GoogleFonts.oswald(
+                  fontSize: 30,
+                  fontStyle: FontStyle.italic,
+                ),
+                bodyMedium: GoogleFonts.merriweather(),
+                displaySmall: GoogleFonts.pacifico(),
+              ),
+            ),
             themeMode: mode,
             home: MyHomePage(title: "CS492 Weather App", notifier: _notifier),
           );
@@ -145,11 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Open Settings',
-            onPressed: _openEndDrawer,
-          )
+          modeToggle()
         ],
       ),
       body: WeatherScreen(
@@ -163,23 +210,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  SizedBox modeToggle() {
-    return SizedBox(
-      width: 400,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(_light ? "Light Mode" : "Dark Mode",
-              style: Theme.of(context).textTheme.labelLarge),
-          Transform.scale(
-            scale: 0.5,
-            child: Switch(
-              value: _light,
-              onChanged: _toggleLight,
-            ),
+  Row modeToggle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(_light ? "Light Mode" : "Dark Mode",
+            style: Theme.of(context).textTheme.labelLarge),
+        Transform.scale(
+          scale: 0.5,
+          child: Switch(
+            value: _light,
+            onChanged: _toggleLight,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -90,3 +90,15 @@ Future<List<WeatherForecast>> getWeatherForecasts(
 
   return forecasts;
 }
+
+// create a list of just the next 12 hours of temperature forecasts
+Future<List<int>> getHourlyTemperatures(UserLocation location) async {
+  List<WeatherForecast> forecasts = await getHourlyForecasts(location);
+  List<int> temperatures = [];
+  for (int i = 0; i < 12; i++) {
+    temperatures.add(forecasts[i].temperature);
+  }
+  // extract temperature from each list item and return a list of just the temperatures
+  temperatures = forecasts.map((forecast) => forecast.temperature).toList();
+  return temperatures;
+}
