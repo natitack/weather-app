@@ -2,6 +2,7 @@ import 'package:cs492_weather_app/models/weather_forecast.dart';
 import '../../models/user_location.dart';
 import 'package:flutter/material.dart';
 import '../location/location.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 class WeatherScreen extends StatefulWidget {
   final Function getLocation;
@@ -89,8 +90,13 @@ class TemperatureWidget extends StatelessWidget {
       width: 500,
       height: 75,
       child: Center(
-        child: Text('${forecasts.elementAt(0).temperature}º',
-            style: Theme.of(context).textTheme.displayLarge),
+        child: Row(
+          children: [
+            Text('${forecasts.elementAt(0).temperature}º',
+                style: Theme.of(context).textTheme.displayLarge),
+            BoxedIcon(WeatherIcons.fromString("wi-day-${forecasts.elementAt(0).shortForecast.toLowerCase()}")),
+          ],
+        ),
       ),
     );
   }
