@@ -3,6 +3,7 @@ import '../../models/user_location.dart';
 import 'package:flutter/material.dart';
 import '../location/location.dart';
 import 'package:weather_icons/weather_icons.dart';
+// https://github.com/worldturtlemedia/weather_icons
 
 class WeatherScreen extends StatefulWidget {
   final Function getLocation;
@@ -46,15 +47,40 @@ class ForecastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        LocationTextWidget(location: location),
-        TemperatureWidget(forecasts: forecasts),
-        DescriptionWidget(forecasts: forecasts)
-      ],
+    return Card.filled(
+      child: SizedBox(
+        width: 500,
+        height: 200,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded( // Add this
+              flex: 1,
+              child: Column(
+                children: [BoxedIcon(WeatherIcons.fromString(
+                    "wi-day-${forecasts.elementAt(0).shortForecast.toLowerCase()}",
+                    fallback: WeatherIcons.na)),TemperatureWidget(forecasts: forecasts)] 
+                  
+              ),
+            ),
+            
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LocationTextWidget(location: location),
+                  DescriptionWidget(forecasts: forecasts)
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
 
 class DescriptionWidget extends StatelessWidget {
   const DescriptionWidget({
@@ -89,15 +115,11 @@ class TemperatureWidget extends StatelessWidget {
     return SizedBox(
       width: 500,
       height: 75,
-      child: Center(
-        child: Row(
-          children: [
+      child: 
+        
             Text('${forecasts.elementAt(0).temperature}º',
                 style: Theme.of(context).textTheme.displayLarge),
-            BoxedIcon(WeatherIcons.fromString("wi-day-${forecasts.elementAt(0).shortForecast.toLowerCase()}")),
-          ],
-        ),
-      ),
+        
     );
   }
 }

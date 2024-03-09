@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
       displayLarge: const TextStyle(
-        fontSize: 72,
+        fontSize: 55,
         fontWeight: FontWeight.bold,
       ),
       // ···
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
               // text styling for headlines, titles, bodies of text, and more.
               textTheme: TextTheme(
                 displayLarge: const TextStyle(
-                  fontSize: 72,
+                  fontSize: 55,
                   fontWeight: FontWeight.bold,
                 ),
                 // ···
@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
           getForecasts: getForecasts,
           getForecastsHourly: getForecastsHourly,
           setLocation: setLocation),
-      endDrawer: Drawer(
+      drawer: Drawer(
         child: settingsDrawer(),
       ),
     );
