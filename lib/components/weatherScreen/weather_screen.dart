@@ -51,30 +51,33 @@ class ForecastWidget extends StatelessWidget {
       child: SizedBox(
         width: 500,
         height: 200,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded( // Add this
-              flex: 1,
-              child: Column(
-                children: [BoxedIcon(WeatherIcons.fromString(
-                    "wi-day-${forecasts.elementAt(0).shortForecast.toLowerCase()}",
-                    fallback: WeatherIcons.na)),TemperatureWidget(forecasts: forecasts)] 
-                  
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded( // Add this
+                flex: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [BoxedIcon(WeatherIcons.fromString(
+                      "wi-day-${forecasts.elementAt(0).shortForecast.toLowerCase()}",
+                      fallback: WeatherIcons.na)),TemperatureWidget(forecasts: forecasts)] 
+                    
+                ),
               ),
-            ),
-            
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LocationTextWidget(location: location),
-                  DescriptionWidget(forecasts: forecasts)
-                ],
+              
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    LocationTextWidget(location: location),
+                    DescriptionWidget(forecasts: forecasts)
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -95,9 +98,9 @@ class DescriptionWidget extends StatelessWidget {
     return SizedBox(
       height: 25,
       width: 500,
-      child: Center(
-          child: Text(forecasts.elementAt(0).shortForecast,
-              style: Theme.of(context).textTheme.bodyMedium)),
+      child: Text(forecasts.elementAt(0).shortForecast,
+          style: Theme.of(context).textTheme.bodyMedium,
+          textAlign: TextAlign.right,),
     );
   }
 }
@@ -112,15 +115,8 @@ class TemperatureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 500,
-      height: 75,
-      child: 
-        
-            Text('${forecasts.elementAt(0).temperature}º',
-                style: Theme.of(context).textTheme.displayLarge),
-        
-    );
+    return Text('${forecasts.elementAt(0).temperature}º',
+        style: Theme.of(context).textTheme.displayLarge);
   }
 }
 
@@ -134,14 +130,10 @@ class LocationTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: SizedBox(
-        width: 500,
-        child: Text("${location.city}, ${location.state}, ${location.zip}",
-            style: Theme.of(context).textTheme.headlineSmall),
-      ),
-    );
+    return Text("${location.city}",
+        style: Theme.of(context).textTheme.headlineSmall,
+        textAlign: TextAlign.right,
+        );
   }
 }
 
