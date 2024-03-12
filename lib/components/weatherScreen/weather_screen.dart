@@ -214,7 +214,23 @@ IconData getIcon(String shortForecast, bool isDaytime) {
     return isDaytime ? WeatherIcons.day_rain : WeatherIcons.night_rain;
   } else if (shortForecast.toLowerCase().contains("snow")) {
     return isDaytime ? WeatherIcons.day_snow : WeatherIcons.night_snow;
-  } else {
+  } else if (shortForecast.toLowerCase().contains("clear")){
     return isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear;
+  } else if (shortForecast.toLowerCase().contains("cloud")){
+    return isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_cloudy;
+  } else if (shortForecast.toLowerCase().contains("fog")){
+    return isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog;
+  } else if (shortForecast.toLowerCase().contains("haze")){
+    return isDaytime ? WeatherIcons.day_haze : WeatherIcons.day_haze;
+  } else if (shortForecast.toLowerCase().contains("sleet")){
+    return isDaytime ? WeatherIcons.day_sleet : WeatherIcons.night_sleet;
+  } else if (shortForecast.toLowerCase().contains("wind")){
+    return isDaytime ? WeatherIcons.day_windy : WeatherIcons.day_windy;
+  } else if (shortForecast.toLowerCase().contains("thunder")){
+    return isDaytime ? WeatherIcons.day_thunderstorm : WeatherIcons.night_thunderstorm;
+  } else if (shortForecast.toLowerCase().contains("overcast")){
+    return isDaytime ? WeatherIcons.day_sunny_overcast : WeatherIcons.night_alt_partly_cloudy;
+  } else {
+    return WeatherIcons.alien;
   }
 }
