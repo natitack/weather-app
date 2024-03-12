@@ -66,11 +66,10 @@ class ForecastWidget extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      BoxedIcon(
-                        getIcon(
-                          forecasts.elementAt(0).shortForecast,
-                          forecasts.elementAt(0).isDaytime,
-                        )),
+                      BoxedIcon(getIcon(
+                        forecasts.elementAt(0).shortForecast,
+                        forecasts.elementAt(0).isDaytime,
+                      )),
                       CurrentTemperatureWidget(forecasts: hourly_forecasts),
                       TwiceDailyTemperatureWidget(forecasts: forecasts),
                     ]),
@@ -140,7 +139,8 @@ class TwiceDailyTemperatureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('${forecasts.elementAt(0).temperature}º / ${forecasts.elementAt(1).temperature}º',
+    return Text(
+        '${forecasts.elementAt(0).temperature}º / ${forecasts.elementAt(1).temperature}º',
         style: Theme.of(context).textTheme.displaySmall);
   }
 }
@@ -202,6 +202,7 @@ class HourlyTemperatureWidget extends StatelessWidget {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: forecasts
               .take(4)
               .map((forecast) => BoxedIcon(
@@ -211,12 +212,18 @@ class HourlyTemperatureWidget extends StatelessWidget {
                     ),
                   ))
               .toList(),
-              ),
+        ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: forecasts
               .take(4)
-              .map((forecast) => Text('${forecast.temperature}º      ',
-                  style: Theme.of(context).textTheme.labelSmall))
+              .map(
+                (forecast) => Text(
+                  '    ${forecast.temperature}º  ',
+                  style: Theme.of(context).textTheme.labelSmall,
+                  textAlign: TextAlign.right,
+                ),
+              )
               .toList(),
         ),
       ],
@@ -230,23 +237,27 @@ IconData getIcon(String shortForecast, bool isDaytime) {
     return isDaytime ? WeatherIcons.day_rain : WeatherIcons.night_rain;
   } else if (shortForecast.toLowerCase().contains("snow")) {
     return isDaytime ? WeatherIcons.day_snow : WeatherIcons.night_snow;
-  } else if (shortForecast.toLowerCase().contains("clear")){
+  } else if (shortForecast.toLowerCase().contains("clear")) {
     return isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear;
-  } else if (shortForecast.toLowerCase().contains("cloud")){
+  } else if (shortForecast.toLowerCase().contains("cloud")) {
     return isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_cloudy;
-  } else if (shortForecast.toLowerCase().contains("fog")){
+  } else if (shortForecast.toLowerCase().contains("fog")) {
     return isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog;
-  } else if (shortForecast.toLowerCase().contains("haze")){
+  } else if (shortForecast.toLowerCase().contains("haze")) {
     return isDaytime ? WeatherIcons.day_haze : WeatherIcons.day_haze;
-  } else if (shortForecast.toLowerCase().contains("sleet")){
+  } else if (shortForecast.toLowerCase().contains("sleet")) {
     return isDaytime ? WeatherIcons.day_sleet : WeatherIcons.night_sleet;
-  } else if (shortForecast.toLowerCase().contains("wind")){
+  } else if (shortForecast.toLowerCase().contains("wind")) {
     return isDaytime ? WeatherIcons.day_windy : WeatherIcons.day_windy;
-  } else if (shortForecast.toLowerCase().contains("thunder")){
-    return isDaytime ? WeatherIcons.day_thunderstorm : WeatherIcons.night_thunderstorm;
-  } else if (shortForecast.toLowerCase().contains("overcast")){
-    return isDaytime ? WeatherIcons.day_sunny_overcast : WeatherIcons.night_alt_partly_cloudy;
-  } else if (shortForecast.toLowerCase().contains("sunny")){
+  } else if (shortForecast.toLowerCase().contains("thunder")) {
+    return isDaytime
+        ? WeatherIcons.day_thunderstorm
+        : WeatherIcons.night_thunderstorm;
+  } else if (shortForecast.toLowerCase().contains("overcast")) {
+    return isDaytime
+        ? WeatherIcons.day_sunny_overcast
+        : WeatherIcons.night_alt_partly_cloudy;
+  } else if (shortForecast.toLowerCase().contains("sunny")) {
     return isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear;
   } else {
     return WeatherIcons.alien;
