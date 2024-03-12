@@ -77,6 +77,8 @@ class _LocationState extends State<Location> {
   void tapList(index) {
     widget.closeEndDrawer!();
     widget.setLocation(_locations.elementAt(index));
+    
+
   }
 
   // There are two ways to add the location

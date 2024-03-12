@@ -246,6 +246,8 @@ IconData getIcon(String shortForecast, bool isDaytime) {
     return isDaytime ? WeatherIcons.day_thunderstorm : WeatherIcons.night_thunderstorm;
   } else if (shortForecast.toLowerCase().contains("overcast")){
     return isDaytime ? WeatherIcons.day_sunny_overcast : WeatherIcons.night_alt_partly_cloudy;
+  } else if (shortForecast.toLowerCase().contains("sunny")){
+    return isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear;
   } else {
     return WeatherIcons.alien;
   }
