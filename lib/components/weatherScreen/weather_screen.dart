@@ -29,20 +29,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ? ForecastWidget(
             context: context,
             location: widget.getLocation(),
-            forecasts: widget.getForecastsHourly())
+            hourly_forecasts: widget.getForecastsHourly(),
+            forecasts: widget.getForecasts(),
+          )
         : LocationWidget(widget: widget));
   }
 }
 
 class ForecastWidget extends StatelessWidget {
   final UserLocation location;
-  final List<WeatherForecast> forecasts;
+  final List<WeatherForecast> hourly_forecasts;
   final BuildContext context;
+  final List<WeatherForecast> forecasts;
 
   const ForecastWidget(
       {super.key,
       required this.context,
       required this.location,
+      required this.hourly_forecasts,
       required this.forecasts});
 
   @override
@@ -50,29 +54,33 @@ class ForecastWidget extends StatelessWidget {
     return Card.filled(
       child: SizedBox(
         width: 500,
-        height: 200,
+        height: 150,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded( // Add this
+              Expanded(
+                // Add this
                 flex: 1,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [BoxedIcon(WeatherIcons.fromString(
-                      "wi-day-${forecasts.elementAt(0).shortForecast.toLowerCase()}",
-                      fallback: WeatherIcons.na)),TemperatureWidget(forecasts: forecasts)] 
-                    
-                ),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BoxedIcon(
+                        getIcon(
+                          forecasts.elementAt(0).shortForecast,
+                          forecasts.elementAt(0).isDaytime,
+                        )),
+                      CurrentTemperatureWidget(forecasts: hourly_forecasts)
+                    ]),
               ),
-              
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     LocationTextWidget(location: location),
-                    DescriptionWidget(forecasts: forecasts)
+                    DescriptionWidget(forecasts: hourly_forecasts),
+                    HourlyTemperatureWidget(forecasts: hourly_forecasts),
                   ],
                 ),
               ),
@@ -83,7 +91,6 @@ class ForecastWidget extends StatelessWidget {
     );
   }
 }
-
 
 class DescriptionWidget extends StatelessWidget {
   const DescriptionWidget({
@@ -98,15 +105,17 @@ class DescriptionWidget extends StatelessWidget {
     return SizedBox(
       height: 25,
       width: 500,
-      child: Text(forecasts.elementAt(0).shortForecast,
-          style: Theme.of(context).textTheme.bodyMedium,
-          textAlign: TextAlign.right,),
+      child: Text(
+        forecasts.elementAt(0).shortForecast,
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlign: TextAlign.right,
+      ),
     );
   }
 }
 
-class TemperatureWidget extends StatelessWidget {
-  const TemperatureWidget({
+class CurrentTemperatureWidget extends StatelessWidget {
+  const CurrentTemperatureWidget({
     super.key,
     required this.forecasts,
   });
@@ -130,10 +139,11 @@ class LocationTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("${location.city}",
-        style: Theme.of(context).textTheme.headlineSmall,
-        textAlign: TextAlign.right,
-        );
+    return Text(
+      "${location.city}",
+      style: Theme.of(context).textTheme.headlineSmall,
+      textAlign: TextAlign.right,
+    );
   }
 }
 
@@ -156,10 +166,55 @@ class LocationWidget extends StatelessWidget {
             child: Text("Requires a location to begin"),
           ),
           Location(
-              setLocation: widget.setLocation,
-              getLocation: widget.getLocation),
+              setLocation: widget.setLocation, getLocation: widget.getLocation),
         ],
       ),
     );
+  }
+}
+
+class HourlyTemperatureWidget extends StatelessWidget {
+  const HourlyTemperatureWidget({
+    super.key,
+    required this.forecasts,
+  });
+
+  final List<WeatherForecast> forecasts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: forecasts
+              .take(4)
+              .map((forecast) => BoxedIcon(
+                    getIcon(
+                      forecast.shortForecast,
+                      forecast.isDaytime,
+                    ),
+                  ))
+              .toList(),
+              ),
+        Row(
+          children: forecasts
+              .take(4)
+              .map((forecast) => Text('${forecast.temperature}º      ',
+                  style: Theme.of(context).textTheme.labelSmall))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+// function that takes in short forecasts and returns an appropriate icon based on if isDaytime true or false, and if the forecast is for rain, snow, or clear
+IconData getIcon(String shortForecast, bool isDaytime) {
+  if (shortForecast.toLowerCase().contains("rain")) {
+    return isDaytime ? WeatherIcons.day_rain : WeatherIcons.night_rain;
+  } else if (shortForecast.toLowerCase().contains("snow")) {
+    return isDaytime ? WeatherIcons.day_snow : WeatherIcons.night_snow;
+  } else {
+    return isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear;
   }
 }
