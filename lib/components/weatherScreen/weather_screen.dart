@@ -54,7 +54,7 @@ class ForecastWidget extends StatelessWidget {
     return Card.filled(
       child: SizedBox(
         width: 500,
-        height: 150,
+        height: 160,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -71,7 +71,8 @@ class ForecastWidget extends StatelessWidget {
                           forecasts.elementAt(0).shortForecast,
                           forecasts.elementAt(0).isDaytime,
                         )),
-                      CurrentTemperatureWidget(forecasts: hourly_forecasts)
+                      CurrentTemperatureWidget(forecasts: hourly_forecasts),
+                      TwiceDailyTemperatureWidget(forecasts: forecasts),
                     ]),
               ),
               Expanded(
@@ -126,6 +127,21 @@ class CurrentTemperatureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text('${forecasts.elementAt(0).temperature}º',
         style: Theme.of(context).textTheme.displayLarge);
+  }
+}
+
+class TwiceDailyTemperatureWidget extends StatelessWidget {
+  const TwiceDailyTemperatureWidget({
+    super.key,
+    required this.forecasts,
+  });
+
+  final List<WeatherForecast> forecasts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('${forecasts.elementAt(0).temperature}º / ${forecasts.elementAt(1).temperature}º',
+        style: Theme.of(context).textTheme.displaySmall);
   }
 }
 

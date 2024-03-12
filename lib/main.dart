@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'components/location/location.dart';
 import 'package:flutter/material.dart';
@@ -25,13 +26,13 @@ class MyApp extends StatelessWidget {
         valueListenable: _notifier,
         builder: (_, mode, __) {
           return MaterialApp(
-            title: 'CS 492 Weather App',
+            title: 'Stratus Weather',
             theme: ThemeData(
     useMaterial3: true,
 
     // Define the default brightness and colors.
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.purple,
+      seedColor: Colors.lightBlue,
       // ···
       brightness: Brightness.light,
     ),
@@ -44,12 +45,11 @@ class MyApp extends StatelessWidget {
         fontWeight: FontWeight.bold,
       ),
       // ···
-      titleLarge: GoogleFonts.oswald(
+      titleLarge: GoogleFonts.raleway(
         fontSize: 30,
-        fontStyle: FontStyle.italic,
       ),
-      bodyMedium: GoogleFonts.merriweather(),
-      displaySmall: GoogleFonts.pacifico(),
+      bodyMedium: GoogleFonts.raleway(),
+      displaySmall: GoogleFonts.raleway(),
     ),
   ),
             darkTheme: ThemeData(
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
 
               // Define the default brightness and colors.
               colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.purple,
+                seedColor: Colors.lightBlue,
                 // ···
                 brightness: Brightness.dark,
               ),
@@ -70,16 +70,15 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
                 // ···
-                titleLarge: GoogleFonts.oswald(
+                titleLarge: GoogleFonts.raleway(
                   fontSize: 30,
-                  fontStyle: FontStyle.italic,
                 ),
-                bodyMedium: GoogleFonts.merriweather(),
-                displaySmall: GoogleFonts.pacifico(),
+                bodyMedium: GoogleFonts.raleway(),
+                displaySmall: GoogleFonts.raleway(),
               ),
             ),
             themeMode: mode,
-            home: MyHomePage(title: "CS492 Weather App", notifier: _notifier),
+            home: MyHomePage(title: "Stratus", notifier: _notifier),
           );
         });
   }
