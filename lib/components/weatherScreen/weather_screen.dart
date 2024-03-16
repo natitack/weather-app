@@ -56,12 +56,11 @@ class ForecastWidget extends StatelessWidget {
         width: 500,
         height: 160,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(9.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Expanded(
-                // Add this
                 flex: 1,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,10 +76,20 @@ class ForecastWidget extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.values[2],
                   children: [
                     LocationTextWidget(location: location),
                     DescriptionWidget(forecasts: hourly_forecasts),
-                    HourlyTemperatureWidget(forecasts: hourly_forecasts),
+                    Container(
+                      height:60,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return HourlyTemperatureWidget(forecasts: [hourly_forecasts[index]]);
+                        },
+                        itemCount: hourly_forecasts.length,
+                      ),
+                    ),
                   ],
                 ),
               ),
